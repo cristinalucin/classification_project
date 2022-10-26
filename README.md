@@ -15,10 +15,6 @@ My initial hypothesis is that monthly charges and contract type are the biggest 
 
 * Prepare data
 
-  * Create Engineered columns from existing data
-    *
-    *
-
 * Explore data in search of drivers of churn
 
   * Answer the following initial questions:
@@ -27,11 +23,11 @@ My initial hypothesis is that monthly charges and contract type are the biggest 
     * Does contract type (month-to-month, one-year, two-year) impact customer churn?
     * Does having dependents impact customer churn?
   
-* Develop a Model to predict if a chess game will end in an upset
+* Develop a Model to predict if a customer will churn
 
     * Use drivers identified through exploration to build predictive models of different types
     * Evaluate models on train and validate data
-    * Select the best model based on highest accuracy
+    * Select the best model based on highest accuracy in combination with an examination of recall and precision
     * Evaluate the best model on test data
     
 * Draw conclusions
@@ -42,21 +38,37 @@ My initial hypothesis is that monthly charges and contract type are the biggest 
 
 | Feature | Definition |
 | --- | --- |
-| Gender | Whether a customer is male (0) or female (1) |
-| Senior Citizen | Whether a customer is Senior Citizen (1) or not (0) |
-| Partner | Whether the customer has a partner or not |
 | Dependents | Whether the customer has dependents or not |
+| Device Protection | Whether the customer has device protection (Yes, No, No internet service) |
+| Gender | Whether a customer is male (0) or female (1) |
+| Internet Service | Customer internet service type (DSL, Fiber optic, No internet service)|
+| Monthly Charges | Amount paid by the customer per month |
+| Phone Service | Whether the customer has a phone service or not |
+| Multiple Lines | Whether the customer has multiple lines or not (Yes, No, No phone service)|
+| Online Security | Whether the customer has online security or not (Yes, No, No internet service) |
+| Online Backup | Whether the customer has online backup or not (Yes, No, No internet service) |
+| Partner | Whether the customer has a partner or not |
+| Payment Type | Whether the customer pays automatically (bank transfer or credit card) or manually
+| Payment Type | (mailed check or electronic check)
+| Senior Citizen | Whether a customer is Senior Citizen (1) or not (0) |
+| Streaming TV | Whether the customer has streaming tv or not (Yes, No, No internet service) |
+| Streaming Movies | Whether the customer has streaming movies or not (Yes, No, No internet service) |
+| Tech Support | Whether the customer has tech support or not (Yes, No, No internet service) |
 | Tenure | Number of months the customer has stayed with the company |
-| PhoneService | Whether the customer has a phone service or not |
-| MultipleLines | Whether the customer has multiple lines or not (Yes, No, No phone service)|
-| InternetService | Customer’s internet service provider (DSL, Fiber optic, No internet srvice)|
-| OnlineSecurity | Whether the customer has online security or not (Yes, No, No internet service) |
+
+
 | Additional Features | Encoded and values for categorical data and scaled versions continuous data|
-
-
 
 # Steps to Reproduce
 
+1. Clone this repository
+2. Acquire the data from the TELCO churn database (located inside Codeup Database)
+3. Put the data in the file containing the cloned repo.
+4. Create or copy your env.py file to this repo, specifying the codeup hostname, username and password
+5. Run notebook.
+
 # Takeaways and Conclusions
+
+
 
 # Recommendations
