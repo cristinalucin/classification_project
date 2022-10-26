@@ -140,3 +140,16 @@ def model_prep(train,validate,test):
     test.rename(columns={'dependents_encoded': 'has_dependents'})
     
     return train_X, validate_X, test_X, train_y, validate_y, test_y
+
+def get_tree(train_X, validate_X, train_y, validate_y):
+    '''get decision tree accuracy on train and validate data'''
+
+    # create classifier object
+    clf = DecisionTreeClassifier(max_depth=5, random_state=123)
+
+    #fit model on training data
+    clf = clf.fit(train_X, train_y)
+
+    # print result
+    print(f"Accuracy of Decision Tree on train data is {clf.score(train_X, train_y)}")
+    print(f"Accuracy of Decision Tree on validate data is {clf.score(validate_X, validate_y)}")
