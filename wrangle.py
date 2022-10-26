@@ -69,6 +69,12 @@ def prep_telco(df):
     # Concatenate dummy dataframe to original 
     df = pd.concat([df, dummy_df], axis=1)
     
+    # Drop original churn variable (we encoded)
+    df.drop(columns=['churn'], inplace=True)
+    
+    # Rename encoded churn
+    df.rename(columns = {'churn_encoded':'churn'}, inplace=True)
+    
     return df
 
 
@@ -88,4 +94,18 @@ def train_validate_test_split(df, target, seed=123):
                                        random_state=seed,
                                        stratify=train_validate[target])
     return train, validate, test
+
+
+def model_prep(train,validate,test):
+    # Drop duplicate columns
+    train = train.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
+                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
+                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
+    validate = validate.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
+                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
+                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
+    test = test.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
+                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
+                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
     
+    return train,validate,test
