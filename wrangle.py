@@ -97,15 +97,19 @@ def train_validate_test_split(df, target, seed=123):
 
 
 def model_prep(train,validate,test):
+    '''
+    This function prepares train, validate, test for modeling by dropping columns not necessary
+    or compatible with modeling algorithms.
+    '''
     # Drop duplicate columns
     train = train.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
                     'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
+                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
     validate = validate.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
                     'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
+                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
     test = test.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
                     'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing', 'churn','contract_type','internet_service_type','payment_type'], inplace=True)
+                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
     
     return train,validate,test

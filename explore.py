@@ -1,4 +1,22 @@
 
+def monthly_charges_md(train):
+    '''
+    This functions computes the mean monthly charges for customers
+    who churn and who do not churn, and visualizes the difference.
+    md = mean difference
+    '''
+    # Subset the data into churn and not-churned status
+    not_churned = train[train.churn == 0]
+    churned = train[train.churn == 1]
+    #assign values and labels
+    values = [not_churned.monthly_charges.mean(), churned.monthly_charges.mean()]
+    labels = ['not_churned', 'churned']
+    # generate and display chart
+    plt.bar(height=values, x=labels, color=['#ffc3a0', '#c0d6e4'])
+    plt.title('Customer monthly charge amount differences in churn vs non-churn')
+    plt.tight_layout()
+    plt.show()
+
 
 def cat_vis(train, col):
     '''
