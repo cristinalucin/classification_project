@@ -8,6 +8,15 @@ import env
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
 
+def get_db_url(db):
+    '''
+    Use your host, username, and password to codeup db to 
+    acquire data from SQL
+    '''
+    from env import host, user, password
+    url = f'mysql+pymysql://{user}:{password}@{host}/{db}'
+    return url
+
 def get_telco_data():
     '''
     This function retrieves data from the codeup SQL db telco churn
@@ -64,7 +73,7 @@ def prep_telco(df):
                               'contract_type', \
                               'internet_service_type', \
                               'payment_type']], dummy_na=False, \
-                              drop_first=True)
+                              drop_first=False)
     
     # Concatenate dummy dataframe to original 
     df = pd.concat([df, dummy_df], axis=1)
@@ -101,15 +110,33 @@ def model_prep(train,validate,test):
     This function prepares train, validate, test for modeling by dropping columns not necessary
     or compatible with modeling algorithms.
     '''
-    # Drop duplicate columns
-    train = train.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
-                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
-    validate = validate.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
-                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
-    test = test.drop(columns=['gender','partner','dependents','phone_service','multiple_lines','online_security',\
-                    'online_backup','device_protection','tech_support','streaming_tv', 'streaming_movies',\
-                    'paperless_billing','contract_type','internet_service_type','payment_type'], axis=1)
+    # drop unused columns 
+    keep_cols = ['senior_citizen',
+                 'dependents_encoded',
+                 'monthly_charges',
+                 'contract_type_Month-to-month',
+                 'contract_type_One year',
+                 'contract_type_Two year',
+                 'churn']
+
+    train = train[keep_cols]
+    validate = validate[keep_cols]
+    test = test[keep_cols]
     
-    return train,validate,test
+    # Split data into predicting variables (X) and target variable (y) and reset the index for each dataframe
+    train_X = train.drop(columns='churn').reset_index(drop=True)
+    train_y = train[['churn']].reset_index(drop=True)
+
+    validate_X = validate.drop(columns='churn').reset_index(drop=True)
+    validate_y = validate[['churn']].reset_index(drop=True)
+
+    test_X = test.drop(columns='churn').reset_index(drop=True)
+    test_y = test[['churn']].reset_index(drop=True)
+    
+    #rename encoded columns
+    
+    train.rename(columns={'dependents_encoded': 'has_dependents'})
+    validate.rename(columns={'dependents_encoded': 'has_dependents'})
+    test.rename(columns={'dependents_encoded': 'has_dependents'})
+    
+    return train_X, validate_X, test_X, train_y, validate_y, test_y
