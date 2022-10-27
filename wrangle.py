@@ -130,14 +130,14 @@ def model_prep(train,validate,test):
     test = test[keep_cols]
     
     # Split data into predicting variables (X) and target variable (y) and reset the index for each dataframe
-    train_X = train.drop(columns='churn').reset_index(drop=True)
-    train_y = train[['churn']].reset_index(drop=True)
+    X_train = train.drop(columns='churn').reset_index(drop=True)
+    y_train = train[['churn']].reset_index(drop=True)
 
-    validate_X = validate.drop(columns='churn').reset_index(drop=True)
-    validate_y = validate[['churn']].reset_index(drop=True)
+    X_validate = validate.drop(columns='churn').reset_index(drop=True)
+    y_validate = validate[['churn']].reset_index(drop=True)
 
-    test_X = test.drop(columns='churn').reset_index(drop=True)
-    test_y = test[['churn']].reset_index(drop=True)
+    X_test = test.drop(columns='churn').reset_index(drop=True)
+    y_test = test[['churn']].reset_index(drop=True)
     
     #rename encoded columns
     
@@ -145,7 +145,7 @@ def model_prep(train,validate,test):
     validate.rename(columns={'dependents_encoded': 'has_dependents'})
     test.rename(columns={'dependents_encoded': 'has_dependents'})
     
-    return train_X, validate_X, test_X, train_y, validate_y, test_y
+    return X_train, X_validate, X_test, y_train, y_validate, y_test
 
 def get_tree(train_X, validate_X, train_y, validate_y):
     '''get decision tree accuracy on train and validate data'''
