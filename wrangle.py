@@ -153,3 +153,18 @@ def get_tree(train_X, validate_X, train_y, validate_y):
     # print result
     print(f"Accuracy of Decision Tree on train data is {clf.score(train_X, train_y)}")
     print(f"Accuracy of Decision Tree on validate data is {clf.score(validate_X, validate_y)}")
+    
+##---------------------------Visualization--------------------------##
+import matplotlib.pyplot as plt
+
+def get_pie_churn(train):
+    '''get pie chart for percent of churn within telco'''
+
+    # set values and labels for chart
+    values = [len(train.churn[train.churn == True]), len(train.churn[train.churn == False])] 
+    labels = ['Churn','Non-Churn'] 
+
+    # generate and show chart
+    plt.pie(values, labels=labels, autopct='%.0f%%', colors=['#c0ffee', '#ffc1cc'])
+    plt.title('Customers Churning within the Train dataset')
+    plt.show()
