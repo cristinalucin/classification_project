@@ -1,12 +1,18 @@
 import os
-
 import pandas as pd
 import numpy as np
+import scipy.stats as stats
 
 import env
 
 from sklearn.model_selection import train_test_split
 from sklearn.impute import SimpleImputer
+from sklearn.tree import DecisionTreeClassifier, plot_tree, export_text
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.linear_model import LogisticRegression
+
+import seaborn as sns
 
 def get_db_url(db):
     '''
@@ -168,3 +174,114 @@ def get_pie_churn(train):
     plt.pie(values, labels=labels, autopct='%.0f%%', colors=['#c0ffee', '#ffc1cc'])
     plt.title('Customers Churning within the Train dataset')
     plt.show()
+    
+def get_bar_senior(train):
+    '''Creates a bar chart comparing senior citizen vs non-senior citizen churn'''
+    plt.title("Senior Citizens and churn rate, 1= Senior Citizen")
+    sns.barplot(x="senior_citizen", y="churn", data=train, palette = 'Pastel1')
+    churn_rate = train.churn.mean()
+    plt.axhline(churn_rate, label="churn_rate")
+    plt.legend()
+    plt.show()
+    
+def get_bar_dependents(train):
+    '''Creates a bar chart comparing churn rate for those with dependents and those without'''
+    plt.title("Dependents and churn, 1= Has Dependents")
+    sns.barplot(x="dependents_encoded", y="churn", data=train, palette = 'Pastel1')
+    churn_rate = train.churn.mean()
+    plt.axhline(churn_rate, label="churn_rate")
+    plt.legend()
+    plt.show()
+    
+def get_bar_contract(train):
+    '''Creates a bar chart comparing contract type and churn rate'''
+    plt.title("Contract Type and churn")
+    sns.barplot(x="contract_type", y="churn", data=train, palette='Pastel1')
+    churn_rate = train.churn.mean()
+    plt.axhline(churn_rate, label="churn_rate")
+    plt.legend()
+    plt.show()
+
+def get_bar_partner(train):
+    '''This chart visualizes the relationship between partner status and churn'''
+    plt.title("Partner Status and churn, 1 = Has Partner")
+    sns.barplot(x="partner_encoded", y="churn", data=train, palette='Pastel1')
+    churn_rate = train.churn.mean()
+    plt.axhline(churn_rate, label="churn_rate")
+    plt.legend()
+    plt.show()
+    
+def monthly_charges_md(train):
+    ''' This functions creates a bar chart comparing mean churn rate of monthly charges
+    for customers who have churned vs those who have not.
+    '''
+    # Subset the data into churn and not-churned status
+    not_churned = train[train.churn == 0]
+    churned = train[train.churn == 1]
+    #assign values and labels
+    values = [not_churned.monthly_charges.mean(), churned.monthly_charges.mean()]
+    labels = ['not_churned', 'churned']
+    # generate and display chart
+    plt.bar(height=values, x=labels, color=['#ffc3a0', '#c0d6e4'])
+    plt.title('Customer monthly charge amount differences in churn vs non-churn')
+    plt.tight_layout()
+    plt.show()
+    
+##-----------------------------Testing-----------------------------------##
+
+def get_chi_senior(train):
+    '''gets results of chi-square test for senior citizen and churn'''
+    observed = pd.crosstab(train.churn, train['senior_citizen'])
+
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
+
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
+    
+def get_chi_dependents(train):
+    '''gets results of chi-square test for dependents and churn'''
+    observed = pd.crosstab(train.churn, train['dependents'])
+
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
+
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
+
+def get_chi_partner(train):
+    '''gets results of chi-square test for partner status and churn'''
+    observed = pd.crosstab(train.churn, train['partner_encoded'])
+
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
+
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
+
+def get_chi_contract(train):
+    '''gets results of chi-square test for contract type and churn'''
+    observed = pd.crosstab(train.churn, train['contract_type'])
+
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
+
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
+    
+def get_t_monthly(train):
+    "get t-test for monthly charges and churn"
+    #Seperate samples into churn and not churn
+    not_churned = train[train.churn == 0]
+    churned = train[train.churn == 1]
+    #Run t-test on these groups, variances are not equal
+    t, p = stats.ttest_ind(not_churned.monthly_charges, churned.monthly_charges, equal_var=False)
+
+    print(f't = {t:.4f}')
+    print(f'p = {p:.4f}') 
+    
+def get_tree_test(X_train,X_test,y_train,y_test):
+    '''get decision tree accuracy on train and test data'''
+    #Testing on Decision Tree (depth of 3):
+    tree = DecisionTreeClassifier(max_depth=3, random_state=123)
+    # fitting the model(X, y)
+    tree.fit(X_train, y_train)
+    y_pred = tree.predict(X_train)
+    print(f"Accuracy of Decision Tree on train data is {tree.score(X_train, y_train)}")
+    print(f"Accuracy of Decision Tree on test data is {tree.score(X_test, y_test)}")
