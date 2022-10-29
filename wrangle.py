@@ -212,7 +212,7 @@ def get_bar_partner(train):
     plt.show()
     
 def monthly_charges_md(train):
-    ''' This functions creates a bar chart comparing mean churn rate of monthly charges
+    ''' This function creates a bar chart comparing mean monthly charge rate
     for customers who have churned vs those who have not.
     '''
     # Subset the data into churn and not-churned status
@@ -227,6 +227,23 @@ def monthly_charges_md(train):
     plt.tight_layout()
     plt.show()
     
+def total_charges_md(train):
+    ''' This function creates a bar chart comparing mean total charges of customers
+    who have churned vs those who have not
+    '''
+    # Subset the data into churn and not-churned status
+    not_churned = train[train.churn == 0]
+    churned = train[train.churn == 1]
+    #assign values and labels
+    values = [not_churned.total_charges.mean(), churned.total_charges.mean()]
+    labels = ['not_churned', 'churned']
+    # generate and display chart
+    plt.bar(height=values, x=labels, color=['#ffc3a0', '#c0d6e4'])
+    plt.title('Customer mean total charge differences (churn vs non-churn)')
+    plt.tight_layout()
+    plt.show()
+    
+
 ##-----------------------------Testing-----------------------------------##
 
 def get_chi_senior(train):
@@ -266,13 +283,24 @@ def get_chi_contract(train):
     print(f'p     = {p:.4f}')
     
 def get_t_monthly(train):
-    "get t-test for monthly charges and churn"
+    '''get t-test for monthly charges and churn'''
     #Seperate samples into churn and not churn
     not_churned = train[train.churn == 0]
     churned = train[train.churn == 1]
     #Run t-test on these groups, variances are not equal
     t, p = stats.ttest_ind(not_churned.monthly_charges, churned.monthly_charges, equal_var=False)
 
+    print(f't = {t:.4f}')
+    print(f'p = {p:.4f}') 
+
+def get_t_total(train):
+    '''get t-test for total charges and churn"'''
+    #Seperate samples into churn and not churn
+    not_churned = train[train.churn == 0]
+    churned = train[train.churn == 1]
+    #Run t-test on these groups, variances are not equal
+    t, p = stats.ttest_ind(not_churned.total_charges, churned.total_charges, equal_var=False)
+    #format results
     print(f't = {t:.4f}')
     print(f'p = {p:.4f}') 
     
