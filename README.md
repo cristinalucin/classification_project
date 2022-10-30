@@ -70,6 +70,17 @@ My initial hypothesis is that monthly charges and contract type are the biggest 
 
 # Takeaways and Conclusions
 
-
+* Exploration of the data revealed significant relationships between most features of this data and whether a customer would churn
+* More time in exploration could yield a different combination of features, improving model accuracy.
+* The combination of examining senior citizens, those with dependents, customer monthly charges, and customer contract type helped created a model with approximately 76 accuracy on training data. Its selection focused on replicability on testing data, which helped create a model that predicted accuracy within a half-percentage point of modeling on training data
+* Besides accuracy, the chosen model maximized recall, which could further help Telco reduce customer churn
 
 # Recommendations
+
+* Focusing on feature selection or feature engineering to maximize future modeling accuracy
+* Looking at features included in this model to target customers (Senior Citizens, those with dependents) with specific offers to reduce churn.
+
+# Next Steps
+
+* Feature engineering add-ons in different iterations
+* Examining other possible drivers of churn based on customer feedback/sales reports
