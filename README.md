@@ -55,6 +55,7 @@ My initial hypothesis is that monthly charges and contract type are the biggest 
 | Streaming Movies | Whether the customer has streaming movies or not (Yes, No, No internet service) |
 | Tech Support | Whether the customer has tech support or not (Yes, No, No internet service) |
 | Tenure | Number of months the customer has stayed with the company |
+| Total Charges| Total charges accrued by the customer
 
 
 | Additional Features | Encoded and values for categorical data and scaled versions continuous data|

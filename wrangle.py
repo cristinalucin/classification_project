@@ -147,18 +147,6 @@ def model_prep(train,validate,test):
     
     return X_train, X_validate, X_test, y_train, y_validate, y_test
 
-def get_tree(train_X, validate_X, train_y, validate_y):
-    '''get decision tree accuracy on train and validate data'''
-
-    # create classifier object
-    clf = DecisionTreeClassifier(max_depth=5, random_state=123)
-
-    #fit model on training data
-    clf = clf.fit(train_X, train_y)
-
-    # print result
-    print(f"Accuracy of Decision Tree on train data is {clf.score(train_X, train_y)}")
-    print(f"Accuracy of Decision Tree on validate data is {clf.score(validate_X, validate_y)}")
     
 ##---------------------------Visualization--------------------------##
 import matplotlib.pyplot as plt
@@ -313,3 +301,51 @@ def get_tree_test(X_train,X_test,y_train,y_test):
     y_pred = tree.predict(X_train)
     print(f"Accuracy of Decision Tree on train data is {tree.score(X_train, y_train)}")
     print(f"Accuracy of Decision Tree on test data is {tree.score(X_test, y_test)}")
+    
+def get_tree(train_X, validate_X, train_y, validate_y):
+    '''get decision tree accuracy on train and validate data'''
+
+    # create classifier object
+    clf = DecisionTreeClassifier(max_depth=5, random_state=123)
+
+    #fit model on training data
+    clf = clf.fit(train_X, train_y)
+
+    # print result
+    print(f"Accuracy of Decision Tree on train data is {clf.score(train_X, train_y)}")
+    print(f"Accuracy of Decision Tree on validate data is {clf.score(validate_X, validate_y)}")
+    
+def get_forest(X_train, X_validate, y_train, y_validate):
+    '''run random forest on train and validate data, return accuracy'''
+    # create model and fiting it to training data
+    rf = RandomForestClassifier(bootstrap=True, 
+                            class_weight=None, 
+                            criterion='gini',
+                            min_samples_leaf=5,
+                            n_estimators=100,
+                            max_depth=5, 
+                            random_state=123)
+    rf.fit(X_train,y_train)
+    # print result
+    print(f"Accuracy of Random Forest on training data is {rf.score(X_train, y_train)}")
+    print(f"Accuracy of Random Forest on validate data is {rf.score(X_validate, y_validate)}")
+    
+    
+def get_knn(X_train, X_validate, y_train, y_validate):
+    '''Run KNN model, fit to train and return accuracy of train and validate data'''
+    # create model, fit it to training data
+    knn = KNeighborsClassifier(n_neighbors=14, weights='uniform')
+    knn.fit(X_train, y_train)
+    # print results
+    print(f"Accuracy of Logistic Regression on training data is {knn.score(X_train, y_train)}")
+    print(f"Accuracy of Logistic Regression on validate data is {knn.score(X_validate, y_validate)}")
+    
+    
+def get_log(X_train, X_validate, y_train, y_validate):
+    '''run logistic regression on train and validate data, return accuracy'''
+    # create model, fit it to training data
+    logit = LogisticRegression(solver='lbfgs',random_state=123)
+    logit.fit(X_train, y_train)
+    # print result
+    print(f"Accuracy of Logistic Regression on train is {logit.score(X_train, y_train)}")
+    print(f"Accuracy of Logistic Regression on validate is {logit.score(X_validate, y_validate)}")
