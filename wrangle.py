@@ -309,11 +309,11 @@ def get_tree(train_X, validate_X, train_y, validate_y):
     clf = DecisionTreeClassifier(max_depth=5, random_state=123)
 
     #fit model on training data
-    clf = clf.fit(train_X, train_y)
+    clf = clf.fit(X_train, y_train)
 
     # print result
-    print(f"Accuracy of Decision Tree on train data is {clf.score(train_X, train_y)}")
-    print(f"Accuracy of Decision Tree on validate data is {clf.score(validate_X, validate_y)}")
+    print(f"Accuracy of Decision Tree on train data is {clf.score(X_train, y_train)}")
+    print(f"Accuracy of Decision Tree on validate data is {clf.score(X_validate, y_validate)}")
     
 def get_forest(X_train, X_validate, y_train, y_validate):
     '''run random forest on train and validate data, return accuracy'''
